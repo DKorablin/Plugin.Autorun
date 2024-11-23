@@ -9,7 +9,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<projectUrl>https://dkorablin.ru/project/Default.aspx?File=85</projectUrl>
 		<repository type="git" url="https://github.com/DKorablin/Plugin.Autorun" />
-		<description>TEMPLATE DESCRIPTION</description>
+		<description>Plugin will write registry entry to launch application when windows starts</description>
 		<releaseNotes></releaseNotes>
 		<copyright>Danila Korablin</copyright>
 		<tags>SAL,Plugin</tags>
