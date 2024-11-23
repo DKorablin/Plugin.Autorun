@@ -1,2 +1,2 @@
-# TEMPLATE plugin
-This is a template plugin description
+# Autorun plugin
+Plugin will write registry entry to launch application when windows starts
