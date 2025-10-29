@@ -18,7 +18,7 @@ namespace Plugin.Autorun
 
 		[DefaultValue(false)]
 		[Category("Automation")]
-		[Description("Autostart application with operating system")]
+		[Description("AutoStart application with operating system")]
 		public Boolean Enabled
 		{
 			get => this._autorun;
@@ -27,39 +27,41 @@ namespace Plugin.Autorun
 				if(this._autorun != value)
 				{
 					this._autorun = value;
-					this.SetAutorunKey();//Если будет исключение, то статус поменяется.
+					this.SetAutorunKey();//If there is an exception, the status will change..
 				}
 			}
 		}
-		/// <summary>Получить наименование приложения для которого прописывается функция автозапуска</summary>
+		/// <summary>Get the name of the application for which the autoStart function is registered</summary>
 		private String ApplicationName
 		{
 			get
 			{
-				String application = Assembly.GetEntryAssembly() == null
+				String assemblyName = Assembly.GetEntryAssembly() == null
 					? Process.GetCurrentProcess().ProcessName
 					: Assembly.GetEntryAssembly().GetName().Name;
 
-				foreach(IPluginDescription kernel in this.Plugin.Host.Plugins.FindPluginType<IPluginKernel>())
-					application += "|" + kernel.ID;
+				StringBuilder application = new StringBuilder(assemblyName);
 
-				return application;
+				foreach(IPluginDescription kernel in this.Plugin.Host.Plugins.FindPluginType<IPluginKernel>())
+					application.Append("|" + kernel.ID);
+
+				return application.ToString();
 			}
 		}
 
 		internal PluginSettings(PluginWindows plugin)
 			=> this.Plugin = plugin;
 
-		/// <summary>Установить в реестре возможность автозапуска</summary>
+		/// <summary>Set the autoStart option in the registry</summary>
 		internal void SetAutorunKey()
 			=> ThreadPool.QueueUserWorkItem(SetAutorunKeyAsync, this);
 
-		/// <summary>Установить в реестре возможность автозапуска</summary>
+		/// <summary>Set autoStart option in the registry</summary>
 		/// <remarks>
-		/// Проверка осуществляется при каждом запуске приложения. Т.к. приложение может быть запущено в первый раз, а значение необходимо записать.
-		/// В будущем, надо решить по другому этот вариант
+		/// The check is performed each time the application is launched. This is because the application may be launched for the first time, and the value needs to be written.
+		/// In the future, this option should be addressed differently.
 		/// </remarks>
-		/// <param name="state">Аргкменты передаваемые в поток</param>
+		/// <param name="state">Arguments passed to the stream</param>
 		private static void SetAutorunKeyAsync(Object state)
 		{
 			PluginSettings pThis = (PluginSettings)state;
