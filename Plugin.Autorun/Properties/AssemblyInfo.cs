@@ -5,4 +5,3 @@ using System.Runtime.InteropServices;
 [assembly: System.CLSCompliant(true)]
 
 [assembly: AssemblyDescription("AutoStart application on system startup")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2011-2015")]
